@@ -10,20 +10,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private final String TAG = "MainActivity";
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private GoogleApiClient googleApiClient;
 
     private Button btnCreateAccount;
     private Button btnSignIn;
+    private SignInButton btnSignInGoogle;
 
     private EditText edtEmail;
     private EditText edtPassword;
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnCreateAccount = (Button) findViewById(R.id.btnCreateAccount);
         btnSignIn        = (Button) findViewById(R.id.btnSingIn);
+        btnSignInGoogle  = (SignInButton) findViewById(R.id.btnSignInGoogle);
 
         edtEmail         = (EditText) findViewById(R.id.edtEmail);
         edtPassword      = (EditText) findViewById(R.id.edtPassword);
@@ -70,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        //Inicializacion de Google Account
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
     }
 
     private void createAccount(String email, String password){
@@ -111,5 +130,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
