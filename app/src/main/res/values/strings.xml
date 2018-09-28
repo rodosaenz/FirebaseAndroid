@@ -6,5 +6,6 @@
     <string name="signin_button">Sign In</string>
     <string name="welcome_to_platzi">Welcome to Platzi</string>
     <string name="signout_button">Sign Out</string>
-    <string name="facebook_app_id">1675057272799819</string>
+    <string name="facebook_app_id">1912931955468342</string>
+    <string name="fb_login_protocol_scheme">fb1912931955468342</string>
 </resources>

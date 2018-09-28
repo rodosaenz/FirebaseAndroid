@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -55,18 +56,25 @@ public class WelcomeActivity extends AppCompatActivity implements GoogleApiClien
 
     private void signOut(){
         firebaseAuth.signOut();
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                if(status.isSuccess()){
-                    Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Toast.makeText(WelcomeActivity.this, "Error en Google Sign Out", Toast.LENGTH_SHORT);
+        if(Auth.GoogleSignInApi != null){
+            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    if(status.isSuccess()){
+                        Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Toast.makeText(WelcomeActivity.this, "Error en Google Sign Out", Toast.LENGTH_SHORT);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (LoginManager.getInstance() != null){
+            LoginManager.getInstance().logOut();
+        }
+
     }
 
     private void initialize(){
