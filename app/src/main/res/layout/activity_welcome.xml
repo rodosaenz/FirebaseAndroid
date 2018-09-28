@@ -24,13 +24,21 @@
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:textSize="15sp"
+        android:layout_marginTop="50dp"
         />
+
+    <ImageView
+        android:id="@+id/imvPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btnSignOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/signout_button"
+        android:layout_marginTop="50dp"
         />
 
 </LinearLayout>
